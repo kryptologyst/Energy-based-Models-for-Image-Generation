@@ -1,0 +1,60 @@
+# CIFAR-10 baseline experiment configuration
+model:
+  name: ebm
+  in_channels: 3
+  base_channels: 64
+  num_layers: 4
+  image_size: 32
+  spectral_norm: true
+
+training:
+  batch_size: 64
+  num_epochs: 100
+  learning_rate: 1e-4
+  beta1: 0.5
+  beta2: 0.999
+  weight_decay: 1e-5
+  gradient_clip: 1.0
+  save_every: 10
+  eval_every: 5
+  sample_every: 5
+
+sampling:
+  method: langevin
+  steps: 100
+  step_size: 0.01
+  noise_scale: 0.01
+  num_samples: 64
+
+data:
+  dataset: cifar10
+  data_dir: ./data
+  num_workers: 4
+  val_split: 0.1
+  augment_prob: 0.5
+
+evaluation:
+  num_samples: 10000
+  batch_size: 100
+  compute_fid: true
+  compute_is: true
+  compute_lpips: true
+  save_plots: true
+
+logging:
+  log_dir: ./logs
+  save_dir: ./assets
+  use_wandb: false
+  use_tensorboard: true
+  project_name: ebm-cifar10
+
+device:
+  device: auto
+  seed: 42
+  deterministic: true
+
+paths:
+  checkpoints: ./assets/checkpoints
+  samples: ./assets/samples
+  logs: ./logs
+  configs: ./configs
